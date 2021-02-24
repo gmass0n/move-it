@@ -2,7 +2,7 @@ import { useChallenges } from "../hooks/challenges";
 import styles from "../styles/components/ChallengeBox.module.css";
 
 export function ChallengeBox(): JSX.Element {
-  const { activeChallenge } = useChallenges()
+  const { activeChallenge, resetChallenge } = useChallenges();
 
   return (
     <div className={styles.challengeBoxContainer}>
@@ -19,7 +19,11 @@ export function ChallengeBox(): JSX.Element {
           </main>
 
           <footer>
-            <button className={styles.challengeFailureButton} type="button">
+            <button
+              onClick={resetChallenge}
+              className={styles.challengeFailureButton}
+              type="button"
+            >
               Falhei
             </button>
 

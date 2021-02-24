@@ -1,9 +1,16 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import challengesList from '../assets/jsons/challenges.json';
+import challengesList from "../assets/jsons/challenges.json";
 
 interface IChallenge {
-  type: 'body' | 'eye';
+  type: "body" | "eye";
   description: string;
   amount: number;
 }
@@ -13,11 +20,15 @@ interface IChallengesContextData {
   currentExperience: number;
   completedChallenges: number;
   activeChallenge: IChallenge;
+  experienceToNextLevel: number;
   levelUp(): void;
   startNewChallenge(): void;
+  resetChallenge(): void;
 }
 
-const ChallengesContext = createContext<IChallengesContextData>({} as IChallengesContextData);
+const ChallengesContext = createContext<IChallengesContextData>(
+  {} as IChallengesContextData
+);
 
 interface IChallengeProviderProps {
   children: React.ReactNode;
@@ -30,17 +41,27 @@ function ChallengesProvider({
   const [currentExperience, setCurrentExperience] = useState(0);
   const [completedChallenges, setCompletedChallenges] = useState(0);
 
-  const [activeChallenge, setActiveChallenge] = useState<IChallenge | null>(null);
+  const [activeChallenge, setActiveChallenge] = useState<IChallenge | null>(
+    null
+  );
+
+  const experienceToNextLevel = useMemo(() => Math.pow((level + 1) * 4, 2), [level]);
 
   const levelUp = useCallback(() => {
     setLevel((prevState) => prevState + 1);
   }, []);
 
   const startNewChallenge = useCallback(() => {
-    const randomChallengeIndex = Math.floor(Math.random() * challengesList.length);
+    const randomChallengeIndex = Math.floor(
+      Math.random() * challengesList.length
+    );
     const challenge = challengesList[randomChallengeIndex] as IChallenge;
-    
+
     setActiveChallenge(challenge);
+  }, []);
+
+  const resetChallenge = useCallback(() => {
+    setActiveChallenge(null);
   }, []);
 
   return (
@@ -49,9 +70,11 @@ function ChallengesProvider({
         level,
         currentExperience,
         completedChallenges,
+        experienceToNextLevel,
         activeChallenge,
         levelUp,
         startNewChallenge,
+        resetChallenge,
       }}
     >
       {children}
