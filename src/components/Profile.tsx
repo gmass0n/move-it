@@ -23,7 +23,7 @@ export function Profile(): JSX.Element {
 
               <button type="button" onClick={signOut}>
                 <FiPower />
-              </button>
+              </button> 
             </>
           ) : (
             <a
