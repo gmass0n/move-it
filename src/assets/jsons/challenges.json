@@ -1,0 +1,22 @@
+[
+  {
+    "type": "body",
+    "description": "Challenge One",
+    "amount": 50
+  },
+  {
+    "type": "body",
+    "description": "Challenge Two",
+    "amount": 200
+  },
+  {
+    "type": "eye",
+    "description": "Challenge Three",
+    "amount": 90
+  },
+  {
+    "type": "eye",
+    "description": "Challenge Four",
+    "amount": 310
+  }
+]
