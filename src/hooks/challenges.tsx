@@ -46,7 +46,7 @@ function ChallengesProvider({
 
   const experienceToNextLevel = useMemo(() => Math.pow((level + 1) * 4, 2), [level]);
 
-  const levelUp = useCallback(() => {
+  const levelUp = useCallback(() => { 
     setLevel((prevState) => prevState + 1);
   }, []);
 

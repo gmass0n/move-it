@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { FiCheckCircle, FiPlayCircle, FiStopCircle } from 'react-icons/fi';
+
 import { useChallenges } from "../hooks/challenges";
 
 import styles from "../styles/components/Countdown.module.css";
@@ -59,6 +61,8 @@ export function Countdown(): JSX.Element {
       {hasFinished ? (
         <button disabled className={styles.countdownButton}>
           Ciclo encerrado
+
+          <FiCheckCircle />
         </button>
       ) : (
         <>
@@ -69,6 +73,8 @@ export function Countdown(): JSX.Element {
               className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
             >
               Abandonar ciclo
+
+              <FiStopCircle />
             </button>
           ) : (
             <button
@@ -77,6 +83,8 @@ export function Countdown(): JSX.Element {
               className={styles.countdownButton}
             >
               Inciar um ciclo
+
+              <FiPlayCircle />
             </button>
           )}
         </>
