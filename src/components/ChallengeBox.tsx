@@ -13,7 +13,7 @@ export function ChallengeBox(): JSX.Element {
           <main>
             <img src={`/icons/${activeChallenge.type}.svg`} />
 
-            <strong>Novo desafio</strong>
+            <strong>{activeChallenge.type === 'body' ? 'Exercite-se' : 'Mova os olhos'}</strong>
 
             <p>{activeChallenge.description}</p>
           </main>
