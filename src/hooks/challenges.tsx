@@ -29,13 +29,13 @@ const ChallengesContext = createContext<IChallengesContextData>(
   {} as IChallengesContextData
 );
 
-interface IChallengeProviderProps {
+interface IChallengesProviderProps {
   children: React.ReactNode;
 }
 
 function ChallengesProvider({
   children,
-}: IChallengeProviderProps): JSX.Element {
+}: IChallengesProviderProps): JSX.Element {
   const [level, setLevel] = useState(1);
   const [currentExperience, setCurrentExperience] = useState(0);
   const [completedChallenges, setCompletedChallenges] = useState(0);
