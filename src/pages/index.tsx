@@ -1,4 +1,4 @@
-import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
 import { ChallengeBox } from "../components/ChallengeBox";
@@ -7,6 +7,7 @@ import { Countdown } from "../components/Countdown";
 import { ExperienceBar } from "../components/ExperienceBar";
 import { Profile } from "../components/Profile";
 import { IUser, useAuth } from "../hooks/auth";
+import { CountdownProvider } from "../hooks/countdown";
 
 import styles from "../styles/pages/Home.module.css";
 
@@ -32,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      user: user.id ? user : null
+      user: user.id ? user : null,
     },
   };
 };
@@ -41,10 +42,10 @@ export default function Home({ user }: IProps) {
   const { signIn } = useAuth();
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       signIn(user);
     }
-  }, [])
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -54,19 +55,21 @@ export default function Home({ user }: IProps) {
 
       <ExperienceBar />
 
-      <section>
-        <div>
-          <Profile />
+      <CountdownProvider>
+        <section>
+          <div>
+            <Profile />
 
-          <CompletedChallenges />
+            <CompletedChallenges />
 
-          <Countdown />
-        </div>
+            <Countdown />
+          </div>
 
-        <div>
-          <ChallengeBox />
-        </div>
-      </section>
+          <div>
+            <ChallengeBox />
+          </div>
+        </section>
+      </CountdownProvider>
     </div>
   );
 }

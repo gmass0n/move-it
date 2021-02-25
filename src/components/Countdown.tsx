@@ -1,46 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
-import { FiCheckCircle, FiPlayCircle, FiStopCircle } from 'react-icons/fi';
+import { useMemo } from "react";
+import { FiCheckCircle, FiPlayCircle, FiStopCircle } from "react-icons/fi";
 
 import { useChallenges } from "../hooks/challenges";
+import { useCountdown } from "../hooks/countdown";
 
 import styles from "../styles/components/Countdown.module.css";
 
-let countdownTimeout: NodeJS.Timeout;
-
 export function Countdown(): JSX.Element {
-  const { startNewChallenge } = useChallenges()
+  const {
+    time,
+    hasFinished,
+    isActive,
+    startCountdown,
+    resetCountdown,
+  } = useCountdown();
 
-  const [time, setTime] = useState(0.1 * 60);
-  const [isActive, setIsActive] = useState(false);
-  const [hasFinished, setHasFinished] = useState(false);
+  const [minuteLeft, minuteRight] = useMemo(() => {
+    const minutes = Math.floor(time / 60);
 
-  const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
+    return String(minutes).padStart(2, "0").split("");
+  }, [time]);
 
-  const [minuteLeft, minuteRight] = String(minutes).padStart(2, "0").split("");
-  const [secondLeft, secondRight] = String(seconds).padStart(2, "0").split("");
+  const [secondLeft, secondRight] = useMemo(() => {
+    const seconds = time % 60;
 
-  useEffect(() => {
-    if (isActive && time > 0) {
-      countdownTimeout = setTimeout(() => {
-        setTime(time - 1);
-      }, 1000);
-    } else if (isActive && time === 0) {
-      setHasFinished(true);
-      setIsActive(false);
-      startNewChallenge()
-    }
-  }, [isActive, time, startNewChallenge]);
-
-  const startCountdown = useCallback(() => {
-    setIsActive(true);
-  }, []);
-
-  const resetCountdown = useCallback(() => {
-    clearTimeout(countdownTimeout);
-    setIsActive(false);
-    setTime(0.1 * 60);
-  }, []);
+    return String(seconds).padStart(2, "0").split("");
+  }, [time]);
 
   return (
     <div>
@@ -61,7 +46,6 @@ export function Countdown(): JSX.Element {
       {hasFinished ? (
         <button disabled className={styles.countdownButton}>
           Ciclo encerrado
-
           <FiCheckCircle />
         </button>
       ) : (
@@ -73,7 +57,6 @@ export function Countdown(): JSX.Element {
               className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
             >
               Abandonar ciclo
-
               <FiStopCircle />
             </button>
           ) : (
@@ -83,7 +66,6 @@ export function Countdown(): JSX.Element {
               className={styles.countdownButton}
             >
               Inciar um ciclo
-
               <FiPlayCircle />
             </button>
           )}
