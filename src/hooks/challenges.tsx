@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -49,6 +50,10 @@ function ChallengesProvider({
     level,
   ]);
 
+  useEffect(() => {
+    Notification.requestPermission();
+  }, []);
+
   const levelUp = useCallback(() => {
     setLevel((prevState) => prevState + 1);
   }, []);
@@ -60,6 +65,16 @@ function ChallengesProvider({
     const challenge = challengesList[randomChallengeIndex] as IChallenge;
 
     setActiveChallenge(challenge);
+
+    new Audio("/notification.mp3").play();
+
+    if (Notification.permission === "granted") {
+      new Notification("Novo desafio 🎉", {
+        body: `${
+          challenge.type === "body" ? "Exercite-se" : "Mova os olhos"
+        }! Complete esse desafio e ganhe ${challenge.amount} xp.`,
+      });
+    }
   }, []);
 
   const resetChallenge = useCallback(() => {
