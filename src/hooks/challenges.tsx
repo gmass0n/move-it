@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import Cookies from "js-cookie";
 
 import challengesList from "../assets/jsons/challenges.json";
 
@@ -33,14 +34,18 @@ const ChallengesContext = createContext<IChallengesContextData>(
 
 interface IChallengesProviderProps {
   children: React.ReactNode;
+  level: number;
+  currentExperience: number;
+  completedChallenges: number;
 }
 
 function ChallengesProvider({
   children,
+  ...rest
 }: IChallengesProviderProps): JSX.Element {
-  const [level, setLevel] = useState(1);
-  const [currentExperience, setCurrentExperience] = useState(0);
-  const [completedChallenges, setCompletedChallenges] = useState(0);
+  const [level, setLevel] = useState(rest.level ?? 1);
+  const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
+  const [completedChallenges, setCompletedChallenges] = useState(rest.currentExperience ?? 0);
 
   const [activeChallenge, setActiveChallenge] = useState<IChallenge | null>(
     null
@@ -53,6 +58,12 @@ function ChallengesProvider({
   useEffect(() => {
     Notification.requestPermission();
   }, []);
+
+  useEffect(() => {
+    Cookies.set('level', String(level));
+    Cookies.set('currentExperience', String(currentExperience));
+    Cookies.set('completedChallenges', String(completedChallenges));
+  }, [level, currentExperience, completedChallenges]);
 
   const levelUp = useCallback(() => {
     setLevel((prevState) => prevState + 1);

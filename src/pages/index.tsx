@@ -1,22 +1,30 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+
 import { useEffect } from "react";
+
 import { ChallengeBox } from "../components/ChallengeBox";
 import { CompletedChallenges } from "../components/CompletedChallenges";
 import { Countdown } from "../components/Countdown";
 import { ExperienceBar } from "../components/ExperienceBar";
 import { Profile } from "../components/Profile";
+
 import { IUser, useAuth } from "../hooks/auth";
+import { ChallengesProvider } from "../hooks/challenges";
 import { CountdownProvider } from "../hooks/countdown";
 
 import styles from "../styles/pages/Home.module.css";
 
 interface IProps {
   user: IUser | null;
+  level: number;
+  currentExperience: number;
+  completedChallenges: number;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { code } = context.query;
+  const { level, currentExperience, completedChallenges } = context.req.cookies;
 
   const response = await fetch(
     `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}`,
@@ -34,11 +42,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       user: user.id ? user : null,
+      level: Number(level),
+      currentExperience: Number(currentExperience),
+      completedChallenges: Number(completedChallenges),
     },
   };
 };
 
-export default function Home({ user }: IProps) {
+export default function Home({ user, completedChallenges, level, currentExperience }: IProps) {
   const { signIn } = useAuth();
 
   useEffect(() => {
@@ -48,28 +59,34 @@ export default function Home({ user }: IProps) {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Início | Move.it </title>
-      </Head>
+    <ChallengesProvider
+      completedChallenges={completedChallenges}
+      level={level}
+      currentExperience={currentExperience}
+    >
+      <div className={styles.container}>
+        <Head>
+          <title>Início | Move.it </title>
+        </Head>
 
-      <ExperienceBar />
+        <ExperienceBar />
 
-      <CountdownProvider>
-        <section>
-          <div>
-            <Profile />
+        <CountdownProvider>
+          <section>
+            <div>
+              <Profile />
 
-            <CompletedChallenges />
+              <CompletedChallenges />
 
-            <Countdown />
-          </div>
+              <Countdown />
+            </div>
 
-          <div>
-            <ChallengeBox />
-          </div>
-        </section>
-      </CountdownProvider>
-    </div>
+            <div>
+              <ChallengeBox />
+            </div>
+          </section>
+        </CountdownProvider>
+      </div>
+    </ChallengesProvider>
   );
 }
