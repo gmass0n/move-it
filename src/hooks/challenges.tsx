@@ -4,11 +4,13 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import Cookies from "js-cookie";
 
 import challengesList from "../assets/jsons/challenges.json";
+import LevelUpModal, { ILevelUpModalHandles } from "../components/LevelUpModal";
 
 interface IChallenge {
   type: "body" | "eye";
@@ -43,9 +45,11 @@ function ChallengesProvider({
   children,
   ...rest
 }: IChallengesProviderProps): JSX.Element {
+  const levelUpModalRef = useRef<ILevelUpModalHandles>(null)
+
   const [level, setLevel] = useState(rest.level ?? 1);
   const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
-  const [completedChallenges, setCompletedChallenges] = useState(rest.currentExperience ?? 0);
+  const [completedChallenges, setCompletedChallenges] = useState(rest.completedChallenges ?? 0);
 
   const [activeChallenge, setActiveChallenge] = useState<IChallenge | null>(
     null
@@ -67,6 +71,7 @@ function ChallengesProvider({
 
   const levelUp = useCallback(() => {
     setLevel((prevState) => prevState + 1);
+    levelUpModalRef.current?.open()
   }, []);
 
   const startNewChallenge = useCallback(() => {
@@ -125,6 +130,8 @@ function ChallengesProvider({
       }}
     >
       {children}
+
+      <LevelUpModal ref={levelUpModalRef} />
     </ChallengesContext.Provider>
   );
 }
