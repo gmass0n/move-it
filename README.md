@@ -3,7 +3,6 @@
   <img src="./.github/logo.svg" alt="Move.it">
 </a>
 <p align="center">
-<br />
   This application combines the <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique" target="_blank">Pomodoro Technique</a> with the performance of some physical exercises, with the aim of improving the focus and productivity of those who spend a lot of time in front of the computer.
 <br />
 <br />
