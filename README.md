@@ -10,7 +10,7 @@
   You can connect with your github account and every 25 minutes you can perform a challenge (exercise) that is worth experience points.
 <br />
 <br />
-  This project was development with <a href="https://www.typescriptlang.org/" target="_blank">Typescript</a>, <a href="https://nextjs.org/" target="_blank">Next.js</a>, CSS Modules and others technologies.
+  This project was development with <a href="https://www.typescriptlang.org/" target="_blank">Typescript</a>, <a href="https://nextjs.org/" target="_blank">Next.js</a>, <a href="https://github.com/css-modules/css-modules" target="_blank">CSS Modules</a> and others technologies.
 <br />
 <br />
 <br />
