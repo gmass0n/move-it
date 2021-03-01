@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/gmass0n/move-it">
-  <img src="./.github/logo.png" alt="Move.it">
+  <img src="./.github/logo.svg" alt="Move.it">
 </a>
 <p align="center">
 <br />
@@ -16,7 +16,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/gmass0n/move-it">
-    <img src="./.github/web-mobile.png" alt="WEB&Mobile" height="350">
+    <img src="./.github/preview.png" alt="Preview" height="350">
   </a>
 </p>  
 
