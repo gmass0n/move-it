@@ -19,23 +19,15 @@
     <img src="./.github/web-mobile.png" alt="WEB&Mobile" height="350">
   </a>
 </p>  
-<h3 align="center">How to usage</h3>
 
-## Instalação e uso
+## Installation and usage
 
 ```bash
-# Abra um terminal e copie este repositório com o comando
-git clone https://github.com/martins-rafael/moveIt.git
-# ou use a opção de download.
+git clone https://github.com/gmass0n/move-it.git
 
-# Entre na pasta web com 
-cd moveIt
+cd move-it
 
-# Instale as dependências
 yarn install
 
-# Rode o aplicação
 yarn dev
-
-# Acesse http://localhost:3000 no seu navagador.
 ```
