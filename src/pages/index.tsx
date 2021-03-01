@@ -3,6 +3,8 @@ import Head from "next/head";
 
 import { useEffect } from "react";
 
+import Cookies from "js-cookie";
+
 import { ChallengeBox } from "../components/ChallengeBox";
 import { CompletedChallenges } from "../components/CompletedChallenges";
 import { Countdown } from "../components/Countdown";
@@ -24,7 +26,7 @@ interface IProps {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { code } = context.query;
-  const { level, currentExperience, completedChallenges } = context.req.cookies;
+  const { userLogin, ...cookies } = context.req.cookies;
 
   const response = await fetch(
     `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}`,
@@ -39,9 +41,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     headers: { Authorization: `token ${response.access_token}` },
   }).then((res) => res.json());
 
+  const newUserLogin = user.login || userLogin;
+
+  const level = cookies[`level-${newUserLogin}`]
+  const currentExperience = cookies[`currentExperience-${newUserLogin}`]
+  const completedChallenges = cookies[`completedChallenges-${newUserLogin}`]
+
   return {
     props: {
-      user: user.id ? user : null,
+      user: user.login ? user : null,
       level: Number(level),
       currentExperience: Number(currentExperience),
       completedChallenges: Number(completedChallenges),

@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 
 import challengesList from "../assets/jsons/challenges.json";
 import LevelUpModal, { ILevelUpModalHandles } from "../components/LevelUpModal";
+import { useAuth } from "./auth";
 
 interface IChallenge {
   type: "body" | "eye";
@@ -47,6 +48,8 @@ function ChallengesProvider({
 }: IChallengesProviderProps): JSX.Element {
   const levelUpModalRef = useRef<ILevelUpModalHandles>(null)
 
+  const { user } = useAuth()
+
   const [level, setLevel] = useState(rest.level ?? 1);
   const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
   const [completedChallenges, setCompletedChallenges] = useState(rest.completedChallenges ?? 0);
@@ -64,9 +67,11 @@ function ChallengesProvider({
   }, []);
 
   useEffect(() => {
-    Cookies.set('level', String(level));
-    Cookies.set('currentExperience', String(currentExperience));
-    Cookies.set('completedChallenges', String(completedChallenges));
+    if (user && user.login) {
+      Cookies.set(`level-${user.login}`, String(level));
+      Cookies.set(`currentExperience-${user.login}`, String(currentExperience));
+      Cookies.set(`completedChallenges-${user.login}`, String(completedChallenges));  
+    }
   }, [level, currentExperience, completedChallenges]);
 
   const levelUp = useCallback(() => {

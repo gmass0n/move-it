@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
+import Cookies from 'js-cookie';
 export interface IUser {
+  login: string;
   name: string;
   avatar_url: string;
 }
@@ -35,6 +37,8 @@ function AuthProvider({ children }: IAuthProviderProps): JSX.Element {
   const signIn = useCallback((user: IUser) => {
     localStorage.setItem("@MoveIt:isLogged", JSON.stringify(true));
     localStorage.setItem("@MoveIt:user", JSON.stringify(user));
+
+    Cookies.set('userLogin', user.login);
 
     setIsLogged(true);
     setUser(user);
