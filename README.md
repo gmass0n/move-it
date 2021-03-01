@@ -18,15 +18,3 @@
     <img src="./.github/preview.png" alt="Preview" height="350">
   </a>
 </p>  
-
-## Installation and usage
-
-```bash
-git clone https://github.com/gmass0n/move-it.git
-
-cd move-it
-
-yarn install
-
-yarn dev
-```
